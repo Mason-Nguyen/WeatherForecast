@@ -3,16 +3,27 @@ import '../../scss/CurrentWeather.scss'
 
 const CurrentWeather = ({currentData}) => 
     <div className='current-weather col-lg-4'>
-        <label className='bold-label w100'>Your city</label>
-        <input id='city-input' value={currentData.CityName} readOnly></input>
-        <label className='current-time'>{currentData.CurrentTime}</label>
-        <img src={`${config.Icon_Url}${currentData.Icon}.png`} alt='no content'/>
-        <label className='label-temperature'>{currentData.Temp}</label>
-        <label className='label-label'>{currentData.Description}</label>
-        <label className='label'>Humidity</label>
-        <label className='label-label'>{currentData.Humidity}</label>
-        <label className='label'>Wind Speed</label>
-        <label className='label-label'>{currentData.WindSpeed}</label>
+        <label className='bold-label col-lg-4'>Your city</label>
+        <input id='city-input' className='col-lg-8 input' value={currentData.CityName} readOnly></input>
+
+        <label className='current-time col-lg-12 text-center'>{currentData.CurrentTime}</label>
+
+        <div className='weather-description flex-center'>
+            <img src={`${config.Icon_Url}${currentData.Icon}.png`} alt='no content' className='weather-icon'/>
+            <label id='label-temperature'>{currentData.Temp}</label>
+        </div>
+        <label className='label-description col-lg-12 text-center'>{currentData.Description}</label>
+
+        <div className='flex-center'>
+            <div className='flex-center-item'>
+                <label className='block-item'>Humidity</label>
+                <label className='humidity bold-label'>{currentData.Humidity}</label>
+            </div>
+            <div className='flex-center-item'>
+                <label className='block-item'>Wind Speed</label>
+                <label className='wind-speed bold-label'>{currentData.WindSpeed}</label>
+            </div>
+        </div>
     </div>
 
 export default CurrentWeather

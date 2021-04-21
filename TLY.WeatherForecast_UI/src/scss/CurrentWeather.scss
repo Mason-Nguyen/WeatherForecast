@@ -1,9 +1,52 @@
 @import "./Main.scss";
 
-.bold-label {
-    font-weight: bold;
+.current-weather {
+    margin-top: 20px;
 }
 
 #city-input {
-    padding: 5px;
+    margin-top: 15px;
 }
+
+.current-time {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#label-temperature {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#label-temperature::after {
+    content:"°C";
+}
+
+.flex-center {
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+.weather-icon {
+    width: 20%;
+    height: 20%;
+}
+
+.label-description {
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 0px;
+}
+
+.humidity::after {
+    content: "%";
+}
+
+.wind-speed::after {
+    content: " km/h";
+}
+

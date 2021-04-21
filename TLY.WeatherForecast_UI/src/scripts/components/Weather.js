@@ -16,9 +16,17 @@ class Weather extends react.Component {
     }
 
     _getCurrentData() {
+        var dateOptions = {  
+            hour:'2-digit', 
+            minute: '2-digit', 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        };
         return {
             CityName: data.name,
-            CurrentTime: data.dt,
+            CurrentTime: (new Date(data.dt)).toLocaleDateString('en-US', dateOptions),
             Icon: data.weather[0].icon,
             Temp: data.main.temp,
             Description: data.weather[0].description,
