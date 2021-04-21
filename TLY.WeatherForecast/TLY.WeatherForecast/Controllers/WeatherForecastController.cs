@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using TLY.WeatherForecast.Criteria;
     using TLY.WeatherForecast.Services;
 
     [Route("[controller]/[action]")]
@@ -16,29 +17,16 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCurrent([FromQuery] string cityName)
+        public async Task<IActionResult> GetWeatherData([FromQuery] GeoCoordinateCriteria criteria)
         {
-            if (IsValidCityName(cityName))
+            if (!ModelState.IsValid)
             {
-                var data = await _weatherService.GetCurrentWeatherByCityName(cityName);
-                return Ok(data);
+                return BadRequest();
             }
 
-            return NotFound();
+            var data = await _weatherService.GetWeatherForecastData(criteria);
+
+            return Ok(data);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetForecast([FromQuery] string cityName)
-        {
-            if (IsValidCityName(cityName))
-            {
-                var data = await _weatherService.GetForecastDataInFiveDaysByCityName(cityName);
-                return Ok(data);
-            }
-
-            return NotFound();
-        }
-
-        private static bool IsValidCityName(string cityName) => !string.IsNullOrWhiteSpace(cityName);
     }
 }
