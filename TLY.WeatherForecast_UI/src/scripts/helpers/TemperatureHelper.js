@@ -1,0 +1,1 @@
+export const convertToCelsius = (temp) => (temp - 273.15).toFixed(1);

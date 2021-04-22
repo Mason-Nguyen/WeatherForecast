@@ -18,7 +18,7 @@ module.exports = JSON.parse('{"API_Url":"","Icon_Url":"http://openweathermap.org
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"coord":{"lon":-122.08,"lat":37.39},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],"base":"stations","main":{"temp":282.55,"feels_like":281.86,"temp_min":280.37,"temp_max":284.26,"pressure":1023,"humidity":100},"visibility":16093,"wind":{"speed":1.5,"deg":350},"clouds":{"all":1},"dt":1560350645,"sys":{"type":1,"id":5122,"message":0.0139,"country":"US","sunrise":1560343627,"sunset":1560396563},"timezone":-25200,"id":420006353,"name":"Mountain View","cod":200}');
+module.exports = JSON.parse('{"lat":10.7626,"lon":106.6602,"timezone":"Asia/Ho_Chi_Minh","timezone_offset":25200,"current":{"dt":1619016551,"sunrise":1618958359,"sunset":1619003069,"temp":302.15,"feels_like":307.68,"pressure":1010,"humidity":79,"dew_point":298.14,"uvi":0,"clouds":40,"visibility":10000,"wind_speed":3.09,"wind_deg":210,"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03n"}]},"daily":[{"dt":1618977600,"sunrise":1618958359,"sunset":1619003069,"moonrise":1618983840,"moonset":1618941240,"moon_phase":0.28,"temp":{"day":306.87,"min":300.02,"max":307.97,"night":302.03,"eve":304.27,"morn":300.14},"feels_like":{"day":310.94,"night":302.87,"eve":308.25,"morn":302.87},"pressure":1010,"humidity":50,"dew_point":295.21,"wind_speed":3.67,"wind_deg":173,"wind_gust":5.67,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"clouds":92,"pop":0.69,"rain":1.56,"uvi":9.48},{"dt":1619064000,"sunrise":1619044731,"sunset":1619089474,"moonrise":1619073600,"moonset":1619030580,"moon_phase":0.31,"temp":{"day":303.72,"min":299.87,"max":303.72,"night":299.87,"eve":302.71,"morn":300.28},"feels_like":{"day":307.81,"night":303.18,"eve":306.51,"morn":303.18},"pressure":1010,"humidity":63,"dew_point":296.02,"wind_speed":4.35,"wind_deg":196,"wind_gust":4.4,"weather":[{"id":501,"main":"Rain","description":"moderate rain","icon":"10d"}],"clouds":100,"pop":1,"rain":12.46,"uvi":12.02},{"dt":1619150400,"sunrise":1619131104,"sunset":1619175880,"moonrise":1619163240,"moonset":1619119800,"moon_phase":0.35,"temp":{"day":299.89,"min":299.02,"max":303.46,"night":299.44,"eve":302.46,"morn":299.21},"feels_like":{"day":302.24,"night":299.21,"eve":305.42,"morn":299.21},"pressure":1010,"humidity":79,"dew_point":296.17,"wind_speed":3.53,"wind_deg":172,"wind_gust":7.7,"weather":[{"id":501,"main":"Rain","description":"moderate rain","icon":"10d"}],"clouds":100,"pop":1,"rain":7.76,"uvi":12.3},{"dt":1619236800,"sunrise":1619217477,"sunset":1619262285,"moonrise":1619253000,"moonset":1619208960,"moon_phase":0.39,"temp":{"day":306.19,"min":298.28,"max":308.14,"night":302.29,"eve":305.39,"morn":298.28},"feels_like":{"day":309.23,"night":299.12,"eve":309.01,"morn":299.12},"pressure":1009,"humidity":49,"dew_point":294.42,"wind_speed":3.73,"wind_deg":199,"wind_gust":7.16,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"clouds":42,"pop":0.56,"rain":0.11,"uvi":9.77},{"dt":1619323200,"sunrise":1619303851,"sunset":1619348691,"moonrise":1619342700,"moonset":1619298120,"moon_phase":0.42,"temp":{"day":305.95,"min":299.92,"max":308.96,"night":302.59,"eve":306.01,"morn":299.92},"feels_like":{"day":309.32,"night":302.31,"eve":310.03,"morn":302.31},"pressure":1010,"humidity":51,"dew_point":294.82,"wind_speed":4.85,"wind_deg":194,"wind_gust":6.57,"weather":[{"id":801,"main":"Clouds","description":"few clouds","icon":"02d"}],"clouds":11,"pop":0.38,"uvi":11.35},{"dt":1619409600,"sunrise":1619390226,"sunset":1619435098,"moonrise":1619432580,"moonset":1619387280,"moon_phase":0.46,"temp":{"day":306.47,"min":300.54,"max":308.47,"night":302.02,"eve":307.13,"morn":300.54},"feels_like":{"day":310.09,"night":303.32,"eve":310.53,"morn":303.32},"pressure":1010,"humidity":50,"dew_point":295.05,"wind_speed":4.65,"wind_deg":153,"wind_gust":7.13,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"clouds":22,"pop":0.64,"rain":0.36,"uvi":12},{"dt":1619496000,"sunrise":1619476601,"sunset":1619521505,"moonrise":1619522580,"moonset":1619476560,"moon_phase":0.5,"temp":{"day":306.39,"min":300.58,"max":308.53,"night":301.63,"eve":307.12,"morn":300.58},"feels_like":{"day":309.63,"night":303.07,"eve":309.9,"morn":303.07},"pressure":1010,"humidity":49,"dew_point":294.45,"wind_speed":5.6,"wind_deg":160,"wind_gust":6.37,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"clouds":62,"pop":0.73,"rain":1.06,"uvi":12},{"dt":1619582400,"sunrise":1619562977,"sunset":1619607912,"moonrise":1619612760,"moonset":1619566020,"moon_phase":0.54,"temp":{"day":305.95,"min":300.72,"max":307.02,"night":301,"eve":304.47,"morn":300.72},"feels_like":{"day":309.32,"night":303.46,"eve":307.43,"morn":303.46},"pressure":1011,"humidity":51,"dew_point":294.82,"wind_speed":4.61,"wind_deg":123,"wind_gust":8,"weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10d"}],"clouds":82,"pop":0.58,"rain":2.11,"uvi":12}]}');
 
 /***/ }),
 
@@ -94,7 +94,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _scss_Weather_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../scss/Weather.scss */ "./scss/Weather.scss");
 /* harmony import */ var _CurrentWeather__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CurrentWeather */ "./scripts/components/CurrentWeather.js");
-/* harmony import */ var _data_data_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../data/data.json */ "./data/data.json");
+/* harmony import */ var _helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helpers/TemperatureHelper */ "./scripts/helpers/TemperatureHelper.js");
+/* harmony import */ var _data_data_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../data/data.json */ "./data/data.json");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -116,6 +117,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -157,22 +159,24 @@ var Weather = /*#__PURE__*/function (_react$Component) {
         month: 'short',
         day: 'numeric'
       };
+      var dateTime = new Date(_data_data_json__WEBPACK_IMPORTED_MODULE_4__.current.dt).toLocaleDateString('en-US', dateOptions);
       return {
-        CityName: _data_data_json__WEBPACK_IMPORTED_MODULE_3__.name,
-        CurrentTime: new Date(_data_data_json__WEBPACK_IMPORTED_MODULE_3__.dt).toLocaleDateString('en-US', dateOptions),
-        Icon: _data_data_json__WEBPACK_IMPORTED_MODULE_3__.weather[0].icon,
-        Temp: _data_data_json__WEBPACK_IMPORTED_MODULE_3__.main.temp,
-        Description: _data_data_json__WEBPACK_IMPORTED_MODULE_3__.weather[0].description,
-        Humidity: _data_data_json__WEBPACK_IMPORTED_MODULE_3__.main.humidity,
-        WindSpeed: _data_data_json__WEBPACK_IMPORTED_MODULE_3__.wind.speed
+        CityName: _data_data_json__WEBPACK_IMPORTED_MODULE_4__.timezone.split("/")[1],
+        CurrentTime: dateTime,
+        Icon: _data_data_json__WEBPACK_IMPORTED_MODULE_4__.current.weather[0].icon,
+        Temp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_3__.convertToCelsius)(_data_data_json__WEBPACK_IMPORTED_MODULE_4__.current.temp),
+        Description: _data_data_json__WEBPACK_IMPORTED_MODULE_4__.current.weather[0].description,
+        Humidity: _data_data_json__WEBPACK_IMPORTED_MODULE_4__.current.humidity,
+        WindSpeed: _data_data_json__WEBPACK_IMPORTED_MODULE_4__.current.wind_speed
       };
     }
   }, {
     key: "render",
     value: function render() {
-      return this.state.currentData ? /*#__PURE__*/React.createElement(_CurrentWeather__WEBPACK_IMPORTED_MODULE_2__.default, {
-        currentData: this.state.currentData
-      }) : /*#__PURE__*/React.createElement("div", null);
+      var currentData = this.state.currentData;
+      return currentData ? /*#__PURE__*/React.createElement(_CurrentWeather__WEBPACK_IMPORTED_MODULE_2__.default, {
+        currentData: currentData
+      }) : null;
     }
   }]);
 
@@ -180,6 +184,22 @@ var Weather = /*#__PURE__*/function (_react$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Weather);
+
+/***/ }),
+
+/***/ "./scripts/helpers/TemperatureHelper.js":
+/*!**********************************************!*\
+  !*** ./scripts/helpers/TemperatureHelper.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "convertToCelsius": () => (/* binding */ convertToCelsius)
+/* harmony export */ });
+var convertToCelsius = function convertToCelsius(temp) {
+  return (temp - 273.15).toFixed(1);
+};
 
 /***/ }),
 
