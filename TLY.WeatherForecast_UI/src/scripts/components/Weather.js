@@ -4,6 +4,8 @@ import "../../scss/Weather.scss"
 import CurrentWeather from './CurrentWeather'
 import {convertToCelsius} from '../helpers/TemperatureHelper'
 import data from '../../data/data.json'
+import WeatherLineChart from './WeatherLineChart'
+import React from 'react'
 
 class Weather extends react.Component {
     constructor(props) {
@@ -13,7 +15,21 @@ class Weather extends react.Component {
 
     componentDidMount() {
         const currentData = this._getCurrentData()
-        this.setState({currentData})
+        const dailyData = this._getDailyData()
+        this.setState({
+            currentData: currentData,
+            dailyData: dailyData
+        })
+    }
+
+    _getDailyData() {
+        return data.daily.map(d => {
+            return {
+                date: d.dt,
+                temp: d.temp.day,
+                humidity: d.humidity
+            };
+        })
     }
 
     _getCurrentData() {
@@ -39,9 +55,9 @@ class Weather extends react.Component {
     }
 
     render() {
-        const {currentData} = this.state;
+        const {currentData, dailyData} = this.state;
         return (
-            currentData ? <CurrentWeather currentData={currentData}/> : null
+            dailyData ? <WeatherLineChart TempData={0, dailyData[0].temp, 20}></WeatherLineChart> : null
         )
     }
 }
