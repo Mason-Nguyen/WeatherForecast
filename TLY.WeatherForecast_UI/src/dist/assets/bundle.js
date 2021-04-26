@@ -194,7 +194,9 @@ var Weather = /*#__PURE__*/function (_react$Component) {
           currentData = _this$state.currentData,
           dailyData = _this$state.dailyData;
       return dailyData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_WeatherLineChart__WEBPACK_IMPORTED_MODULE_5__.default, {
-        TempData: (0, dailyData[0].temp, 20)
+        TempBefore: 0,
+        TempCurrent: dailyData[0].temp,
+        TempAfter: 40
       }) : null;
     }
   }]);
@@ -216,8 +218,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -254,14 +256,15 @@ var WeatherLineChart = /*#__PURE__*/function (_react$Component) {
     _classCallCheck(this, WeatherLineChart);
 
     _this = _super.call(this, props);
-    _this.canvasRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createRef();
+    _this.canvasRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createRef();
     return _this;
   }
 
   _createClass(WeatherLineChart, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.lineChart = new chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart(this.canvasRef.current, this._buildChartConfig());
+      chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_1__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.Title, chart_js__WEBPACK_IMPORTED_MODULE_1__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.Filler);
+      this.lineChart = new chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart(this.canvasRef.current, this._buildChartConfig());
     }
   }, {
     key: "_buildChartConfig",
@@ -269,15 +272,16 @@ var WeatherLineChart = /*#__PURE__*/function (_react$Component) {
       return {
         type: 'line',
         data: {
+          labels: ["Before", "Current", "After"],
           datasets: [{
             label: 'Temperature',
-            data: this._buildChartData(),
             fill: 'start',
-            backgroundColor: '#1e82dd',
-            pointRadius: 3,
-            borderColor: '#a8cef0',
+            data: this._buildChartData(),
+            borderColor: '#1e82dd',
+            backgroundColor: '#c2e7f0',
+            pointRadius: 5,
             borderWidth: 2,
-            lineTension: 0
+            lineTension: 0.4
           }]
         },
         options: {
@@ -299,7 +303,7 @@ var WeatherLineChart = /*#__PURE__*/function (_react$Component) {
   }, {
     key: "_buildChartData",
     value: function _buildChartData() {
-      return [this.props.TempData.TempBefore, this.props.TempData.TempCurrent, this.props.TempData.TempAfter];
+      return [this.props.TempBefore, this.props.TempCurrent, this.props.TempAfter];
     }
   }, {
     key: "render",
@@ -311,7 +315,7 @@ var WeatherLineChart = /*#__PURE__*/function (_react$Component) {
   }]);
 
   return WeatherLineChart;
-}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WeatherLineChart);
 

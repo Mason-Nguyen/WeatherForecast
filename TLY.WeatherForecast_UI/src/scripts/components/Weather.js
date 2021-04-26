@@ -57,7 +57,9 @@ class Weather extends react.Component {
     render() {
         const {currentData, dailyData} = this.state;
         return (
-            dailyData ? <WeatherLineChart TempData={0, dailyData[0].temp, 20}></WeatherLineChart> : null
+            dailyData ? <WeatherLineChart TempBefore={0}
+                                            TempCurrent={dailyData[0].temp}
+                                            TempAfter={40}/> : null          
         )
     }
 }

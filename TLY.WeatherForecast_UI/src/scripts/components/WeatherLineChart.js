@@ -1,5 +1,5 @@
-import { Chart } from "chart.js";
 import react from "react"
+import { Chart, Filler, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from "chart.js"
 
 class WeatherLineChart extends react.Component {
     constructor(props) {
@@ -8,23 +8,25 @@ class WeatherLineChart extends react.Component {
     }
 
     componentDidMount() {
+        Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler)
         this.lineChart = new Chart(this.canvasRef.current, this._buildChartConfig())
     }
 
-    _buildChartConfig () {
+    _buildChartConfig() {
         return { 
             type: 'line',
             data: {
+                labels: ["Before", "Current", "After"],
                 datasets: [{
                     label: 'Temperature',
-                    data: this._buildChartData(),
                     fill: 'start',
-                    backgroundColor: '#1e82dd',
-                    pointRadius: 3,
-                    borderColor: '#a8cef0',
+                    data: this._buildChartData(),
+                    borderColor: '#1e82dd',
+                    backgroundColor: '#c2e7f0',
+                    pointRadius: 5,
                     borderWidth: 2,
-                    lineTension: 0
-                  }]
+                    lineTension: 0.4
+                }]
             },
             options: {
                 plugins: {
@@ -45,9 +47,9 @@ class WeatherLineChart extends react.Component {
 
     _buildChartData() {
         return [
-            this.props.TempData.TempBefore,  
-            this.props.TempData.TempCurrent, 
-            this.props.TempData.TempAfter
+            this.props.TempBefore,  
+            this.props.TempCurrent, 
+            this.props.TempAfter
         ];
     }
     
