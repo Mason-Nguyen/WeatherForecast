@@ -73,3 +73,7 @@
     margin: 15px;
     text-align: center;
 }
+
+.humidity::after {
+    content: "%";
+}

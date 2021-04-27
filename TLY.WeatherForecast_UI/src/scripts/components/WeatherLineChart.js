@@ -16,7 +16,7 @@ class WeatherLineChart extends react.Component {
         return { 
             type: 'line',
             data: {
-                labels: ["Before", "Current", "After"],
+                labels: ["Minimum", "Current", "Maximum"],
                 datasets: [{
                     label: 'Temperature',
                     fill: 'start',
@@ -47,15 +47,17 @@ class WeatherLineChart extends react.Component {
 
     _buildChartData() {
         return [
-            this.props.TempBefore,  
-            this.props.TempCurrent, 
-            this.props.TempAfter
+            this.props.MinTemp,  
+            this.props.CurrentTemp, 
+            this.props.MaxTemp
         ];
     }
     
     render() {
         return (
-            <canvas ref={this.canvasRef}></canvas>
+            <div className='col-lg-8'>
+                <canvas ref={this.canvasRef}></canvas>
+            </div>
         )
     }
 }

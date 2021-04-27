@@ -2,10 +2,12 @@ import react from 'react'
 import "../../scss/Weather.scss"
 
 import CurrentWeather from './CurrentWeather'
-import {convertToCelsius} from '../helpers/TemperatureHelper'
-import data from '../../data/data.json'
 import WeatherLineChart from './WeatherLineChart'
-import React from 'react'
+
+import data from '../../data/data.json'
+
+import {convertToCelsius} from '../helpers/TemperatureHelper'
+import {getCityName} from '../helpers/StringHelper'
 
 class Weather extends react.Component {
     constructor(props) {
@@ -25,9 +27,11 @@ class Weather extends react.Component {
     _getDailyData() {
         return data.daily.map(d => {
             return {
-                date: d.dt,
-                temp: d.temp.day,
-                humidity: d.humidity
+                Date: d.dt,
+                MaxTemp: convertToCelsius(d.temp.max),
+                MinTemp: convertToCelsius(d.temp.min),
+                Temp: convertToCelsius(d.temp.day),
+                Humidity: d.humidity
             };
         })
     }
@@ -44,7 +48,7 @@ class Weather extends react.Component {
 
         const dateTime = (new Date(data.current.dt)).toLocaleDateString('en-US', dateOptions)
         return {
-            CityName: data.timezone.split("/")[1],
+            CityName: getCityName(data.timezone),
             CurrentTime: dateTime,
             Icon: data.current.weather[0].icon,
             Temp: convertToCelsius(data.current.temp),
@@ -54,12 +58,27 @@ class Weather extends react.Component {
         }
     }
 
+    _renderCurrentWeather(currentData) {
+        return currentData && <CurrentWeather currentData={currentData}/>
+    }
+
+    _renderWeatherLineChart(dailyData) {
+        return dailyData && <WeatherLineChart MinTemp={dailyData[0].MinTemp}
+                                                CurrentTemp={dailyData[0].Temp}
+                                                MaxTemp={dailyData[0].MaxTemp}/>
+    }
+
     render() {
         const {currentData, dailyData} = this.state;
         return (
-            dailyData ? <WeatherLineChart TempBefore={0}
-                                            TempCurrent={dailyData[0].temp}
-                                            TempAfter={40}/> : null          
+            <div className='row'>
+                {
+                    this._renderCurrentWeather(currentData)
+                }
+                {
+                    this._renderWeatherLineChart(dailyData)
+                }
+            </div>
         )
     }
 }
