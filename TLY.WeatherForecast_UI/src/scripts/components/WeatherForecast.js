@@ -1,4 +1,4 @@
-import react from 'react'
+import React from 'react'
 
 import WeatherButtonList from './WeatherButtonList'
 
@@ -13,8 +13,8 @@ class WeatherForecast extends react.Component {
     _getChartData(dataByDate) {
         return {
             MaxTemp: convertToCelsius(dataByDate.temp.max),
+            CurrentTemp: convertToCelsius(dataByDate.temp.day),
             MinTemp: convertToCelsius(dataByDate.temp.min),
-            Temp: convertToCelsius(dataByDate.temp.day),
         }
     }
 
@@ -33,10 +33,10 @@ class WeatherForecast extends react.Component {
         const {chartData} = this.state
 
         return(
-            <>
-                <WeatherLineChart dailyData={chartData} />
+            <React.Fragment>
+                <WeatherLineChart {...chartData} />
                 <WeatherButtonList dataByDates={dataByDates}/>
-            </>
+            </React.Fragment>
         )
     }
 }
