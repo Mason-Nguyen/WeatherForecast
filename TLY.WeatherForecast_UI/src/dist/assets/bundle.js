@@ -160,11 +160,9 @@ var Weather = /*#__PURE__*/function (_react$Component) {
     value: function _getDailyData() {
       return _data_data_json__WEBPACK_IMPORTED_MODULE_4__.daily.map(function (d) {
         return {
-          Date: d.dt,
           MaxTemp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_5__.convertToCelsius)(d.temp.max),
-          MinTemp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_5__.convertToCelsius)(d.temp.min),
-          Temp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_5__.convertToCelsius)(d.temp.day),
-          Humidity: d.humidity
+          CurrentTemp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_5__.convertToCelsius)(d.temp.day),
+          MinTemp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_5__.convertToCelsius)(d.temp.min)
         };
       });
     }
@@ -200,11 +198,7 @@ var Weather = /*#__PURE__*/function (_react$Component) {
   }, {
     key: "_renderWeatherLineChart",
     value: function _renderWeatherLineChart(dailyData) {
-      return dailyData && /*#__PURE__*/React.createElement(_WeatherLineChart__WEBPACK_IMPORTED_MODULE_3__.default, {
-        MinTemp: dailyData[0].MinTemp,
-        CurrentTemp: dailyData[0].Temp,
-        MaxTemp: dailyData[0].MaxTemp
-      });
+      return dailyData && /*#__PURE__*/React.createElement(_WeatherLineChart__WEBPACK_IMPORTED_MODULE_3__.default, dailyData[0]);
     }
   }, {
     key: "render",
@@ -293,7 +287,7 @@ var WeatherLineChart = /*#__PURE__*/function (_react$Component) {
           datasets: [{
             label: 'Temperature',
             fill: 'start',
-            data: this._buildChartData(),
+            data: Object.values(this.props),
             borderColor: '#1e82dd',
             backgroundColor: '#c2e7f0',
             pointRadius: 5,
@@ -316,11 +310,6 @@ var WeatherLineChart = /*#__PURE__*/function (_react$Component) {
           }
         }
       };
-    }
-  }, {
-    key: "_buildChartData",
-    value: function _buildChartData() {
-      return [this.props.MinTemp, this.props.CurrentTemp, this.props.MaxTemp];
     }
   }, {
     key: "render",

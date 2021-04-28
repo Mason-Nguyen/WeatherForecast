@@ -27,11 +27,9 @@ class Weather extends react.Component {
     _getDailyData() {
         return data.daily.map(d => {
             return {
-                Date: d.dt,
                 MaxTemp: convertToCelsius(d.temp.max),
+                CurrentTemp: convertToCelsius(d.temp.day),
                 MinTemp: convertToCelsius(d.temp.min),
-                Temp: convertToCelsius(d.temp.day),
-                Humidity: d.humidity
             };
         })
     }
@@ -63,9 +61,7 @@ class Weather extends react.Component {
     }
 
     _renderWeatherLineChart(dailyData) {
-        return dailyData && <WeatherLineChart MinTemp={dailyData[0].MinTemp}
-                                                CurrentTemp={dailyData[0].Temp}
-                                                MaxTemp={dailyData[0].MaxTemp}/>
+        return dailyData && <WeatherLineChart {...dailyData[0]}/>
     }
 
     render() {

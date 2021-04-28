@@ -20,7 +20,7 @@ class WeatherLineChart extends react.Component {
                 datasets: [{
                     label: 'Temperature',
                     fill: 'start',
-                    data: this._buildChartData(),
+                    data: Object.values(this.props),
                     borderColor: '#1e82dd',
                     backgroundColor: '#c2e7f0',
                     pointRadius: 5,
@@ -43,14 +43,6 @@ class WeatherLineChart extends react.Component {
                 }
             }
         }
-    }
-
-    _buildChartData() {
-        return [
-            this.props.MinTemp,  
-            this.props.CurrentTemp, 
-            this.props.MaxTemp
-        ];
     }
     
     render() {
