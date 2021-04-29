@@ -1,0 +1,1 @@
+export const formatDate = (date, options) => (new Date(date*1000)).toLocaleDateString('en-US', options)

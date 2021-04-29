@@ -2,12 +2,13 @@ import react from 'react'
 import "../../scss/Weather.scss"
 
 import CurrentWeather from './CurrentWeather'
-import WeatherLineChart from './WeatherLineChart'
+import WeatherForecast from './WeatherForecast'
 
 import data from '../../data/data.json'
 
-import {convertToCelsius} from '../helpers/TemperatureHelper'
-import {getCityName} from '../helpers/StringHelper'
+import { convertToCelsius } from '../helpers/TemperatureHelper'
+import { getCityName } from '../helpers/StringHelper'
+import { formatDate } from '../helpers/DateHelper'
 
 class Weather extends react.Component {
     constructor(props) {
@@ -25,29 +26,36 @@ class Weather extends react.Component {
     }
 
     _getDailyData() {
+        const dateOptions = {
+            weekday: 'short',
+            day: 'numeric'
+        };
+
         return data.daily.map(d => {
             return {
-                MaxTemp: convertToCelsius(d.temp.max),
-                CurrentTemp: convertToCelsius(d.temp.day),
-                MinTemp: convertToCelsius(d.temp.min),
+                Date: formatDate(d.dt, dateOptions),
+                MaxTemp: d.temp.max,
+                CurrentTemp: d.temp.day,
+                MinTemp: d.temp.min,
+                Humidity: d.humidity,
+                Icon: d.weather[0].icon
             };
-        })
+        }).slice(0, 5)
     }
 
     _getCurrentData() {
-        const dateOptions = {  
-            hour:'2-digit', 
-            minute: '2-digit', 
-            weekday: 'short', 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
+        const dateOptions = {
+            hour: '2-digit',
+            minute: '2-digit',
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
         };
 
-        const dateTime = (new Date(data.current.dt)).toLocaleDateString('en-US', dateOptions)
         return {
             CityName: getCityName(data.timezone),
-            CurrentTime: dateTime,
+            CurrentTime: formatDate(data.current.dt, dateOptions),
             Icon: data.current.weather[0].icon,
             Temp: convertToCelsius(data.current.temp),
             Description: data.current.weather[0].description,
@@ -57,22 +65,22 @@ class Weather extends react.Component {
     }
 
     _renderCurrentWeather(currentData) {
-        return currentData && <CurrentWeather currentData={currentData}/>
+        return currentData && <CurrentWeather currentData={currentData} />
     }
 
-    _renderWeatherLineChart(dailyData) {
-        return dailyData && <WeatherLineChart {...dailyData[0]}/>
+    _renderWeatherForecast(dailyData) {
+        return dailyData && <WeatherForecast dailyData={dailyData} />
     }
 
     render() {
-        const {currentData, dailyData} = this.state;
+        const { currentData, dailyData } = this.state;
         return (
             <div className='row'>
                 {
                     this._renderCurrentWeather(currentData)
                 }
                 {
-                    this._renderWeatherLineChart(dailyData)
+                    this._renderWeatherForecast(dailyData)
                 }
             </div>
         )

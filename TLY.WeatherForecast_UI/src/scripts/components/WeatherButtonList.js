@@ -1,12 +1,16 @@
-import WeatherButton from './WeatherButton'
+import React from 'react'
 
-const WeatherButtonList = ({dataByDates}) => 
-    <div className='weather-list'>
+import WeatherButton from './WeatherButton'
+import '../../scss/WeatherButtonList.scss'
+
+const WeatherButtonList = React.forwardRef((props, buttonRef) => (
+    <div className='weather-list flex-space-around'>
         {
-            dataByDates.map(dataByDate => 
-                <WeatherButton {...dataByDate}/>)
+            props.dataByDates.map((dataByDate, i) => 
+                <WeatherButton key={i} {...dataByDate} onClick={props.onButtonClick} ref={buttonRef}/>)
         }
     </div>
+))
 
 export default WeatherButtonList
     

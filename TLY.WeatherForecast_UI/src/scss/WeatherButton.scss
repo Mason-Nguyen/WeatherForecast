@@ -1,0 +1,21 @@
+.weather-button {
+    font-size: 14px;
+    width: 120px;
+    margin-top: 20px;
+
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
+    label {
+        display: block;
+    }
+}
+
+.weather-button:hover, :focus {
+    background-color: #c2e7f0;
+    cursor: pointer;
+}

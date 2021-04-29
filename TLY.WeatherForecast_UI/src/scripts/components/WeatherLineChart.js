@@ -1,6 +1,8 @@
 import react from "react"
 import { Chart, Filler, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from "chart.js"
 
+import '../../scss/WeatherLineChart.scss'
+
 class WeatherLineChart extends react.Component {
     constructor(props) {
         super(props);
@@ -8,19 +10,36 @@ class WeatherLineChart extends react.Component {
     }
 
     componentDidMount() {
-        Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler)
+        this._renderChart()
+    }
+
+    componentDidUpdate() {
+        this._updateChart()
+    }
+
+    _renderChart() {
+        Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler) // Must register before create new Chart
         this.lineChart = new Chart(this.canvasRef.current, this._buildChartConfig())
     }
 
+    _updateChart() {
+        this.lineChart.data.datasets[0].data = this._buildChartData()
+        this.lineChart.update()
+    }
+
+    _buildChartData() {
+        return Object.values(this.props)
+    }
+
     _buildChartConfig() {
-        return { 
+        return {
             type: 'line',
             data: {
                 labels: ["Minimum", "Current", "Maximum"],
                 datasets: [{
                     label: 'Temperature',
                     fill: 'start',
-                    data: Object.values(this.props),
+                    data: this._buildChartData(),
                     borderColor: '#1e82dd',
                     backgroundColor: '#c2e7f0',
                     pointRadius: 5,
@@ -29,13 +48,18 @@ class WeatherLineChart extends react.Component {
                 }]
             },
             options: {
+                animation: {
+                    duration: 3000 // Set animation play time
+                },
+                responsive:true, // chart is responsive
+                aspectRatio: 3, // (width/height)
                 plugins: {
                     filler: {
                         propagate: false
                     },
-                    title: {
+                    title: { // Display chart title
                         display: true,
-                        text: 'Temperature'
+                        text: ''
                     }
                 },
                 interaction: {
@@ -44,12 +68,10 @@ class WeatherLineChart extends react.Component {
             }
         }
     }
-    
+
     render() {
         return (
-            <div className='col-lg-8'>
-                <canvas ref={this.canvasRef}></canvas>
-            </div>
+            <canvas id='chart' ref={this.canvasRef}></canvas>
         )
     }
 }
