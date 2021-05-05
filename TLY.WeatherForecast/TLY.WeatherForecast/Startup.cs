@@ -32,7 +32,7 @@ namespace TLY.WeatherForecast
 
                                   /* WithOrigins - always define allowing Header, Method, ... */
                                   /* AllowAnyOrigin - do not define header, method */
-                                  builder.WithOrigins("http://localhost:5500")
+                                  builder.WithOrigins("http://127.0.0.1:5500")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                               });
@@ -42,6 +42,7 @@ namespace TLY.WeatherForecast
             services.AddHttpClient<IWeatherForecastService, WeatherForecastService>(c =>
             {
                 c.BaseAddress = new Uri(Configuration["OpenWeatherBaseURI"]);
+                c.Timeout = TimeSpan.FromMinutes(2);
             });
             services.AddSwaggerGen(c =>
             {
