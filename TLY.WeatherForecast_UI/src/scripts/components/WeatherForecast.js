@@ -7,15 +7,14 @@ import WeatherLineChart from './WeatherLineChart'
 class WeatherForecast extends React.Component {
     constructor(props) {
         super(props)
-        this.buttonRef = React.createRef()
         this.state = {
-            chartData: this._getChartData(props.dailyData[0])
+            ButtonId: 0
         }
-
         this._onSelectedDayChange = this._onSelectedDayChange.bind(this)
     }
 
-    _getChartData(dataByDate) {
+    _getChartData(id) {
+        const dataByDate = this.props.dailyData[id];
         return {
             MaxTemp: convertToCelsius(dataByDate.MaxTemp),
             CurrentTemp: convertToCelsius(dataByDate.CurrentTemp),
@@ -33,22 +32,23 @@ class WeatherForecast extends React.Component {
         })
     }
 
-    _onSelectedDayChange(date) {
-        var dataByDate = this.props.dailyData.filter(d => d.Date === date)[0];
-        var chartData = this._getChartData(dataByDate);
-        this.buttonRef.current.focus()
-
-        this.setState({chartData})
+    _onSelectedDayChange(id) {
+        if (this.state.ButtonId !== id) {
+            this.setState({ButtonId: id})
+        }
     }
 
     render() {
         const dataByDates = this._getDataByDates()
-        const {chartData} = this.state
+        const {ButtonId} = this.state
+        const chartData = this._getChartData(ButtonId)
 
         return(
             <div className='col-lg-8'>
                 <WeatherLineChart {...chartData} />
-                <WeatherButtonList dataByDates={dataByDates} onButtonClick={this._onSelectedDayChange} ref={this.buttonRef}/>
+                <WeatherButtonList dataByDates={dataByDates}
+                                    activedButtonId={ButtonId}
+                                    onButtonClick={this._onSelectedDayChange}/>
             </div>
         )
     }

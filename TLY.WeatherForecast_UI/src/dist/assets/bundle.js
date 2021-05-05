@@ -245,19 +245,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var WeatherButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.forwardRef(function (props, buttonRef) {
+
+var WeatherButton = function WeatherButton(_ref) {
+  var dataByDate = _ref.dataByDate,
+      isActive = _ref.isActive,
+      onClick = _ref.onClick;
+  var isActiveClassName = isActive ? 'focus' : '';
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("div", {
-    className: "weather-button text-center",
-    onClick: function onClick() {
-      return props.onClick(props.Date);
-    },
-    ref: buttonRef
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("label", null, props.Date), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("img", {
-    src: "".concat(_config_config_json__WEBPACK_IMPORTED_MODULE_0__.Icon_Url).concat(props.Icon, ".png")
+    className: "weather-button text-center ".concat(isActiveClassName),
+    onClick: onClick
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("label", null, dataByDate.Date), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("img", {
+    src: "".concat(_config_config_json__WEBPACK_IMPORTED_MODULE_0__.Icon_Url).concat(dataByDate.Icon, ".png")
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("label", {
     className: "humidity bold"
-  }, props.Humidity));
-});
+  }, dataByDate.Humidity));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WeatherButton);
 
 /***/ }),
@@ -275,23 +278,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _WeatherButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WeatherButton */ "./scripts/components/WeatherButton.js");
 /* harmony import */ var _scss_WeatherButtonList_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../scss/WeatherButtonList.scss */ "./scss/WeatherButtonList.scss");
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
 
-var WeatherButtonList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, buttonRef) {
+var WeatherButtonList = function WeatherButtonList(_ref) {
+  var dataByDates = _ref.dataByDates,
+      activedButtonId = _ref.activedButtonId,
+      onButtonClick = _ref.onButtonClick;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "weather-list flex-space-around"
-  }, props.dataByDates.map(function (dataByDate, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_WeatherButton__WEBPACK_IMPORTED_MODULE_1__.default, _extends({
-      key: i
-    }, dataByDate, {
-      onClick: props.onButtonClick,
-      ref: buttonRef
-    }));
+  }, dataByDates.map(function (dataByDate, i) {
+    var isActive = i === activedButtonId;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_WeatherButton__WEBPACK_IMPORTED_MODULE_1__.default, {
+      key: i,
+      dataByDate: dataByDate,
+      isActive: isActive,
+      onClick: function onClick() {
+        return onButtonClick(i);
+      }
+    });
   }));
-});
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WeatherButtonList);
 
 /***/ }),
@@ -348,9 +357,8 @@ var WeatherForecast = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, WeatherForecast);
 
     _this = _super.call(this, props);
-    _this.buttonRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createRef();
     _this.state = {
-      chartData: _this._getChartData(props.dailyData[0])
+      ButtonId: 0
     };
     _this._onSelectedDayChange = _this._onSelectedDayChange.bind(_assertThisInitialized(_this));
     return _this;
@@ -358,7 +366,8 @@ var WeatherForecast = /*#__PURE__*/function (_React$Component) {
 
   _createClass(WeatherForecast, [{
     key: "_getChartData",
-    value: function _getChartData(dataByDate) {
+    value: function _getChartData(id) {
+      var dataByDate = this.props.dailyData[id];
       return {
         MaxTemp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_1__.convertToCelsius)(dataByDate.MaxTemp),
         CurrentTemp: (0,_helpers_TemperatureHelper__WEBPACK_IMPORTED_MODULE_1__.convertToCelsius)(dataByDate.CurrentTemp),
@@ -378,30 +387,28 @@ var WeatherForecast = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "_onSelectedDayChange",
-    value: function _onSelectedDayChange(date) {
-      var dataByDate = this.props.dailyData.filter(function (d) {
-        return d.Date === date;
-      })[0];
-
-      var chartData = this._getChartData(dataByDate);
-
-      this.buttonRef.current.focus();
-      this.setState({
-        chartData: chartData
-      });
+    value: function _onSelectedDayChange(id) {
+      if (this.state.ButtonId !== id) {
+        this.setState({
+          ButtonId: id
+        });
+      }
     }
   }, {
     key: "render",
     value: function render() {
       var dataByDates = this._getDataByDates();
 
-      var chartData = this.state.chartData;
+      var ButtonId = this.state.ButtonId;
+
+      var chartData = this._getChartData(ButtonId);
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "col-lg-8"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_WeatherLineChart__WEBPACK_IMPORTED_MODULE_3__.default, chartData), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_WeatherButtonList__WEBPACK_IMPORTED_MODULE_2__.default, {
         dataByDates: dataByDates,
-        onButtonClick: this._onSelectedDayChange,
-        ref: this.buttonRef
+        activedButtonId: ButtonId,
+        onButtonClick: this._onSelectedDayChange
       }));
     }
   }]);
@@ -13432,7 +13439,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".weather-button {\n  font-size: 14px;\n  width: 120px;\n  margin-top: 20px;\n}\n.weather-button img {\n  display: block;\n  margin-left: auto;\n  margin-right: auto;\n  width: 50%;\n}\n.weather-button label {\n  display: block;\n}\n\n.weather-button:hover, :focus {\n  background-color: #c2e7f0;\n  cursor: pointer;\n}", "",{"version":3,"sources":["webpack://./scss/WeatherButton.scss"],"names":[],"mappings":"AAAA;EACI,eAAA;EACA,YAAA;EACA,gBAAA;AACJ;AACI;EACI,cAAA;EACA,iBAAA;EACA,kBAAA;EACA,UAAA;AACR;AAEI;EACI,cAAA;AAAR;;AAIA;EACI,yBAAA;EACA,eAAA;AADJ","sourcesContent":[".weather-button {\r\n    font-size: 14px;\r\n    width: 120px;\r\n    margin-top: 20px;\r\n\r\n    img {\r\n        display: block;\r\n        margin-left: auto;\r\n        margin-right: auto;\r\n        width: 50%;\r\n    }\r\n\r\n    label {\r\n        display: block;\r\n    }\r\n}\r\n\r\n.weather-button:hover, :focus {\r\n    background-color: #c2e7f0;\r\n    cursor: pointer;\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".weather-button {\n  font-size: 14px;\n  width: 120px;\n  margin-top: 20px;\n}\n.weather-button img {\n  display: block;\n  margin-left: auto;\n  margin-right: auto;\n  width: 50%;\n}\n.weather-button label {\n  display: block;\n}\n\n.focus {\n  background-color: #c2e7f0;\n  cursor: pointer;\n}\n\n.weather-button:hover {\n  background-color: #c2e7f0;\n  cursor: pointer;\n}", "",{"version":3,"sources":["webpack://./scss/WeatherButton.scss"],"names":[],"mappings":"AAAA;EACI,eAAA;EACA,YAAA;EACA,gBAAA;AACJ;AACI;EACI,cAAA;EACA,iBAAA;EACA,kBAAA;EACA,UAAA;AACR;AAEI;EACI,cAAA;AAAR;;AAIA;EACI,yBAAA;EACA,eAAA;AADJ;;AAIA;EACI,yBAAA;EACA,eAAA;AADJ","sourcesContent":[".weather-button {\r\n    font-size: 14px;\r\n    width: 120px;\r\n    margin-top: 20px;\r\n\r\n    img {\r\n        display: block;\r\n        margin-left: auto;\r\n        margin-right: auto;\r\n        width: 50%;\r\n    }\r\n\r\n    label {\r\n        display: block;\r\n    }\r\n}\r\n\r\n.focus {\r\n    background-color: #c2e7f0;\r\n    cursor: pointer;\r\n}\r\n\r\n.weather-button:hover {\r\n    background-color: #c2e7f0;\r\n    cursor: pointer;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

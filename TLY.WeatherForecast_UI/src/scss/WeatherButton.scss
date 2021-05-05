@@ -15,7 +15,12 @@
     }
 }
 
-.weather-button:hover, :focus {
+.focus {
+    background-color: #c2e7f0;
+    cursor: pointer;
+}
+
+.weather-button:hover {
     background-color: #c2e7f0;
     cursor: pointer;
 }
