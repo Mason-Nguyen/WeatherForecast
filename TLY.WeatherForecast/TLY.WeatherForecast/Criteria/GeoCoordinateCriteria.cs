@@ -6,6 +6,6 @@
 
         public string Longitude { get; set; }
 
-        public string Exclude { get; set; }
+        public string Exclude { get; set; } = "minutely,hourly,alerts";
     }
 }

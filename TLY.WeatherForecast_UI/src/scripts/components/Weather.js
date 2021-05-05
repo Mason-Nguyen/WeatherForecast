@@ -1,10 +1,9 @@
 import react from 'react'
+import axios from 'axios'
 import "../../scss/Weather.scss"
 
 import CurrentWeather from './CurrentWeather'
 import WeatherForecast from './WeatherForecast'
-
-import data from '../../data/data.json'
 
 import { convertToCelsius } from '../helpers/TemperatureHelper'
 import { getCityName } from '../helpers/StringHelper'
@@ -14,24 +13,48 @@ class Weather extends react.Component {
     constructor(props) {
         super(props)
         this.state = {}
+        this._onGetLocationSuccess = this._onGetLocationSuccess.bind(this)
     }
 
     componentDidMount() {
-        const currentData = this._getCurrentData()
-        const dailyData = this._getDailyData()
-        this.setState({
-            currentData: currentData,
-            dailyData: dailyData
-        })
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this._onGetLocationSuccess, this._onGetLocationError);
+        }
+        else {
+            console.log("Geolocation is not supported by your browser");
+        }
     }
 
-    _getDailyData() {
+    _onGetLocationSuccess(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        console.log(`${latitude} - ${longitude}`);
+
+        axios.get(`https://localhost:44309/WeatherForecast/GetWeatherData?Latitude=${latitude}&Longitude=${longitude}`)
+            .then((response) => {
+                const weatherData = response.data
+                const currentData = this._getCurrentData(weatherData)
+                const dailyData = this._getDailyData(weatherData)
+
+                this.setState({
+                    currentData: currentData,
+                    dailyData: dailyData
+                })
+            })
+    }
+
+    _onGetLocationError() {
+        console.log("Unable to retrieve your location");
+    }
+
+    _getDailyData(weatherData) {
         const dateOptions = {
             weekday: 'short',
             day: 'numeric'
         };
 
-        return data.daily.map(d => {
+        return weatherData.daily.map(d => {
             return {
                 Date: formatDate(d.dt, dateOptions),
                 MaxTemp: d.temp.max,
@@ -43,7 +66,7 @@ class Weather extends react.Component {
         }).slice(0, 5)
     }
 
-    _getCurrentData() {
+    _getCurrentData(weatherData) {
         const dateOptions = {
             hour: '2-digit',
             minute: '2-digit',
@@ -54,13 +77,13 @@ class Weather extends react.Component {
         };
 
         return {
-            CityName: getCityName(data.timezone),
-            CurrentTime: formatDate(data.current.dt, dateOptions),
-            Icon: data.current.weather[0].icon,
-            Temp: convertToCelsius(data.current.temp),
-            Description: data.current.weather[0].description,
-            Humidity: data.current.humidity,
-            WindSpeed: data.current.wind_speed
+            CityName: getCityName(weatherData.timezone),
+            CurrentTime: formatDate(weatherData.current.dt, dateOptions),
+            Icon: weatherData.current.weather[0].icon,
+            Temp: convertToCelsius(weatherData.current.temp),
+            Description: weatherData.current.weather[0].description,
+            Humidity: weatherData.current.humidity,
+            WindSpeed: weatherData.current.wind_speed
         }
     }
 

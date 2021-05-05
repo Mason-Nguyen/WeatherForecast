@@ -22,6 +22,22 @@ namespace TLY.WeatherForecast
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                // Add default policy -> should not be define a name for policy
+                options.AddDefaultPolicy(builder =>
+                              {
+                                  /* The specified URL must not contain a trailing slash (/). If the URL terminates with /, 
+                                   * the comparison returns false and no header is returned.*/
+
+                                  /* WithOrigins - always define allowing Header, Method, ... */
+                                  /* AllowAnyOrigin - do not define header, method */
+                                  builder.WithOrigins("http://localhost:5500")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                              });
+            });
+
             services.AddControllers();
             services.AddHttpClient<IWeatherForecastService, WeatherForecastService>(c =>
             {
@@ -46,6 +62,11 @@ namespace TLY.WeatherForecast
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            /* Allow request from different domain (cross domain)
+             * Pass a policy name if it do not default policy
+             */
+            app.UseCors();
 
             app.UseAuthorization();
 
