@@ -102,9 +102,8 @@ class Weather extends react.Component {
     render() {
         const { currentData, dailyData, isLoading } = this.state;
         return (
-            isLoading 
-            ? <BlockUi tag='div' blocking={isLoading}></BlockUi> 
-            : <div className='row'>
+            <BlockUi tag='div' blocking={isLoading} KeepInView={true} message="Collecting data, please wait...">
+                <div className='row'>
                     {
                         this._renderCurrentWeather(currentData)
                     }
@@ -112,6 +111,7 @@ class Weather extends react.Component {
                         this._renderWeatherForecast(dailyData)
                     }
               </div>
+            </BlockUi>
         )
     }
 }

@@ -5,10 +5,9 @@
     display: inline-block;
     opacity: 0;
     font-size: 2em;
-    color: #02a17c;
+    color: #1e82dd;
 }
 .block-ui {
-    position: relative;
     min-height: 3em;
 }
 .block-ui-container {
@@ -43,9 +42,12 @@
     z-index: 10001;
 }
 .block-ui-message {
-    color: #333;
+    color: #1e82dd;
     background: none;
     z-index: 1011;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
 }
 
 /* CSS Animations */
