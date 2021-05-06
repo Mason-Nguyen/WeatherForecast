@@ -4,6 +4,7 @@ import "../../scss/Weather.scss"
 
 import CurrentWeather from './CurrentWeather'
 import WeatherForecast from './WeatherForecast'
+import BlockUi from './core/blockUI/BlockUI'
 
 import { convertToCelsius } from '../helpers/TemperatureHelper'
 import { getCityName } from '../helpers/StringHelper'
@@ -12,7 +13,9 @@ import { formatDate } from '../helpers/DateHelper'
 class Weather extends react.Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            isLoading: true
+        }
         this._onGetLocationSuccess = this._onGetLocationSuccess.bind(this)
     }
 
@@ -38,6 +41,7 @@ class Weather extends react.Component {
                 const dailyData = this._getDailyData(weatherData)
 
                 this.setState({
+                    isLoading: false,
                     currentData: currentData,
                     dailyData: dailyData
                 })
@@ -96,16 +100,18 @@ class Weather extends react.Component {
     }
 
     render() {
-        const { currentData, dailyData } = this.state;
+        const { currentData, dailyData, isLoading } = this.state;
         return (
-            <div className='row'>
-                {
-                    this._renderCurrentWeather(currentData)
-                }
-                {
-                    this._renderWeatherForecast(dailyData)
-                }
-            </div>
+            isLoading 
+            ? <BlockUi tag='div' blocking={isLoading}></BlockUi> 
+            : <div className='row'>
+                    {
+                        this._renderCurrentWeather(currentData)
+                    }
+                    {
+                        this._renderWeatherForecast(dailyData)
+                    }
+              </div>
         )
     }
 }
