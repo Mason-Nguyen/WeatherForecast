@@ -1,12 +1,12 @@
-import react from "react"
+import {Component, createRef} from "react"
 import { Chart, Filler, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from "chart.js"
 
 import '../../scss/WeatherLineChart.scss'
 
-class WeatherLineChart extends react.Component {
+class WeatherLineChart extends Component {
     constructor(props) {
         super(props);
-        this.canvasRef = react.createRef()
+        this.canvasRef = createRef()
     }
 
     componentDidMount() {

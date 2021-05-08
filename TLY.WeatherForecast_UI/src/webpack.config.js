@@ -30,6 +30,7 @@ module.exports = {
                     options: {
                         presets: [
                             ["@babel/preset-react", {
+                                // Using to avoid window.React = React in index.js
                                 // automatic: auto imports the functions that JSX transpiles to. 
                                 // classic: does not automatic import anything.
                                 "runtime": "automatic"

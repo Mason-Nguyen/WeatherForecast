@@ -1,10 +1,7 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import {render} from "react-dom"
 import Weather from "./components/Weather"
 
-window.React = React
-
-ReactDOM.render(
+render(
     <Weather/>,
     document.getElementById("react-container")
 )

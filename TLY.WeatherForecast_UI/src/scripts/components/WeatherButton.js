@@ -1,8 +1,6 @@
 import config from '../../config/config.json'
 import '../../scss/WeatherButton.scss'
 
-import React from 'react'
-
 const WeatherButton = ({dataByDate, isActive, onClick}) => {
     const isActiveClassName = isActive ? 'focus' : ''
     return <div className={`weather-button text-center ${isActiveClassName}`} onClick={onClick}>

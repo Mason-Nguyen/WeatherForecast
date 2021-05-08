@@ -1,10 +1,10 @@
-import React from 'react'
+import {Component} from 'react'
 import {convertToCelsius} from '../helpers/TemperatureHelper'
 
 import WeatherButtonList from './WeatherButtonList'
 import WeatherLineChart from './WeatherLineChart'
 
-class WeatherForecast extends React.Component {
+class WeatherForecast extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -16,9 +16,9 @@ class WeatherForecast extends React.Component {
     _getChartData(id) {
         const dataByDate = this.props.dailyData[id];
         return {
-            MaxTemp: convertToCelsius(dataByDate.MaxTemp),
-            CurrentTemp: convertToCelsius(dataByDate.CurrentTemp),
             MinTemp: convertToCelsius(dataByDate.MinTemp),
+            CurrentTemp: convertToCelsius(dataByDate.CurrentTemp),
+            MaxTemp: convertToCelsius(dataByDate.MaxTemp),
         }
     }
 
