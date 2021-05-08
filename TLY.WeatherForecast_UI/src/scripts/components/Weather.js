@@ -1,5 +1,5 @@
-import react from 'react'
-import axios from 'axios'
+import {Component} from 'react'
+import {get} from 'axios'
 import "../../scss/Weather.scss"
 
 import CurrentWeather from './CurrentWeather'
@@ -10,7 +10,7 @@ import { convertToCelsius } from '../helpers/TemperatureHelper'
 import { getCityName } from '../helpers/StringHelper'
 import { formatDate } from '../helpers/DateHelper'
 
-class Weather extends react.Component {
+class Weather extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -28,24 +28,25 @@ class Weather extends react.Component {
         }
     }
 
-    _onGetLocationSuccess(position) {
+    async _onGetLocationSuccess(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
         console.log(`${latitude} - ${longitude}`);
 
-        axios.get(`https://localhost:44309/WeatherForecast/GetWeatherData?Latitude=${latitude}&Longitude=${longitude}`)
-            .then((response) => {
-                const weatherData = response.data
-                const currentData = this._getCurrentData(weatherData)
-                const dailyData = this._getDailyData(weatherData)
+        const response = await get(`https://localhost:44309/WeatherForecast/GetWeatherData`+
+                                            `?Latitude=${latitude}` + 
+                                            `&Longitude=${longitude}`)
 
-                this.setState({
-                    isLoading: false,
-                    currentData: currentData,
-                    dailyData: dailyData
-                })
-            })
+        const weatherData = response.data
+        const currentData = this._getCurrentData(weatherData)
+        const dailyData = this._getDailyData(weatherData)
+
+        this.setState({
+            isLoading: false,
+            currentData: currentData,
+            dailyData: dailyData
+        })
     }
 
     _onGetLocationError() {
@@ -110,7 +111,7 @@ class Weather extends react.Component {
                     {
                         this._renderWeatherForecast(dailyData)
                     }
-              </div>
+                </div>
             </BlockUi>
         )
     }

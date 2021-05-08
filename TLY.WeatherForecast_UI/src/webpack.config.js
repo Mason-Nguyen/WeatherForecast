@@ -19,7 +19,7 @@ module.exports = {
         ignored: /node_modules/ // No watch file .js in node_modules
         // aggregateTimeout: 200 (ms) // - Add a delay before rebuilding once the first file changed. This allows webpack to aggregate any other changes made during this time period into one rebuild
     },
-    
+
     module: {
         rules: [
             {
@@ -28,7 +28,22 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env', "@babel/preset-react"],
+                        presets: [
+                            ["@babel/preset-react", {
+                                // automatic: auto imports the functions that JSX transpiles to. 
+                                // classic: does not automatic import anything.
+                                "runtime": "automatic"
+                            }],
+                            ["@babel/preset-env", {
+                                //usage: no need to import anything manually. All polyfills are added automatically based on their code usage in a file
+                                //entry: Add these import entries once (!) in your app - akin to @babel/polyfill:
+                                "useBuiltIns": "usage", // alternative mode: "entry"
+                                "corejs": 3, // default would be 2
+                                // set your own target environment here (see Browserslist)
+                                "targets": "> 0.25%, not dead"
+                            }]
+
+                        ]
                     }
                 }
             },
@@ -47,8 +62,8 @@ module.exports = {
     },
 
     //optimization: {
-        //minimize: true,
-        //minimize: false, // <---- disables uglify.
-        //minimizer: [new UglifyJsPlugin()] //<----- if you want to customize it.
+    //minimize: true,
+    //minimize: false, // <---- disables uglify.
+    //minimizer: [new UglifyJsPlugin()] //<----- if you want to customize it.
     //}
 }
