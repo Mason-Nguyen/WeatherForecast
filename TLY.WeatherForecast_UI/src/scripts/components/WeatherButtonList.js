@@ -9,7 +9,8 @@ const WeatherButtonList = ({dataByDates, activedButtonId, onButtonClick}) =>
                 return <WeatherButton key={i} 
                                         dataByDate={dataByDate}
                                         isActive={isActive}
-                                        onClick={() => onButtonClick(i)}/>
+                                        buttonId={i}
+                                        onClick={onButtonClick}/>
             })
         }
     </div>

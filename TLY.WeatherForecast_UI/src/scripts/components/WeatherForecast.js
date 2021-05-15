@@ -8,7 +8,7 @@ class WeatherForecast extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            ButtonId: 0
+            activedButtonId: 0
         }
         this._onSelectedDayChange = this._onSelectedDayChange.bind(this)
     }
@@ -32,22 +32,22 @@ class WeatherForecast extends Component {
         })
     }
 
-    _onSelectedDayChange(id) {
-        if (this.state.ButtonId !== id) {
-            this.setState({ButtonId: id})
+    _onSelectedDayChange(activedButtonId) {
+        if (this.state.activedButtonId !== activedButtonId) {
+            this.setState({activedButtonId: activedButtonId})
         }
     }
 
     render() {
         const dataByDates = this._getDataByDates()
-        const {ButtonId} = this.state
-        const chartData = this._getChartData(ButtonId)
+        const {activedButtonId} = this.state
+        const chartData = this._getChartData(activedButtonId)
 
         return(
             <div className='col-lg-8'>
                 <WeatherLineChart {...chartData} />
                 <WeatherButtonList dataByDates={dataByDates}
-                                    activedButtonId={ButtonId}
+                                    activedButtonId={activedButtonId}
                                     onButtonClick={this._onSelectedDayChange}/>
             </div>
         )

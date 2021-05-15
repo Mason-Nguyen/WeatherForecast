@@ -2203,11 +2203,17 @@ __webpack_require__.r(__webpack_exports__);
 var WeatherButton = function WeatherButton(_ref) {
   var dataByDate = _ref.dataByDate,
       isActive = _ref.isActive,
+      buttonId = _ref.buttonId,
       onClick = _ref.onClick;
   var isActiveClassName = isActive ? 'focus' : '';
+
+  var _onButtonClick = function _onButtonClick() {
+    onClick(buttonId);
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "weather-button text-center ".concat(isActiveClassName),
-    onClick: onClick,
+    onClick: _onButtonClick,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
       children: dataByDate.Date
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
@@ -2255,9 +2261,8 @@ var WeatherButtonList = function WeatherButtonList(_ref) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_WeatherButton__WEBPACK_IMPORTED_MODULE_1__.default, {
         dataByDate: dataByDate,
         isActive: isActive,
-        onClick: function onClick() {
-          return onButtonClick(i);
-        }
+        buttonId: i,
+        onClick: onButtonClick
       }, i);
     })
   });
@@ -2376,7 +2381,7 @@ var WeatherForecast = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      ButtonId: 0
+      activedButtonId: 0
     };
     _this._onSelectedDayChange = _this._onSelectedDayChange.bind(_assertThisInitialized(_this));
     return _this;
@@ -2405,10 +2410,10 @@ var WeatherForecast = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "_onSelectedDayChange",
-    value: function _onSelectedDayChange(id) {
-      if (this.state.ButtonId !== id) {
+    value: function _onSelectedDayChange(activedButtonId) {
+      if (this.state.activedButtonId !== activedButtonId) {
         this.setState({
-          ButtonId: id
+          activedButtonId: activedButtonId
         });
       }
     }
@@ -2417,15 +2422,15 @@ var WeatherForecast = /*#__PURE__*/function (_Component) {
     value: function render() {
       var dataByDates = this._getDataByDates();
 
-      var ButtonId = this.state.ButtonId;
+      var activedButtonId = this.state.activedButtonId;
 
-      var chartData = this._getChartData(ButtonId);
+      var chartData = this._getChartData(activedButtonId);
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("div", {
         className: "col-lg-8",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_WeatherLineChart__WEBPACK_IMPORTED_MODULE_18__.default, _objectSpread({}, chartData)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_WeatherButtonList__WEBPACK_IMPORTED_MODULE_17__.default, {
           dataByDates: dataByDates,
-          activedButtonId: ButtonId,
+          activedButtonId: activedButtonId,
           onButtonClick: this._onSelectedDayChange
         })]
       });
