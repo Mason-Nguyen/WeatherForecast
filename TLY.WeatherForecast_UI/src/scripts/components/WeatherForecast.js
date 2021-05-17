@@ -16,9 +16,9 @@ class WeatherForecast extends Component {
     _getChartData(id) {
         const dataByDate = this.props.dailyData[id];
         return {
-            MinTemp: convertToCelsius(dataByDate.MinTemp),
-            CurrentTemp: convertToCelsius(dataByDate.CurrentTemp),
-            MaxTemp: convertToCelsius(dataByDate.MaxTemp),
+            minTemp: convertToCelsius(dataByDate.MinTemp),
+            currentTemp: convertToCelsius(dataByDate.CurrentTemp),
+            maxTemp: convertToCelsius(dataByDate.MaxTemp),
         }
     }
 

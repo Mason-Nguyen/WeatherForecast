@@ -1,37 +1,44 @@
-import {Component, createRef} from "react"
+import React, {Component, useRef, useState, useEffect, useMemo} from "react"
 import { Chart, Filler, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from "chart.js"
 
 import '../../scss/WeatherLineChart.scss'
 
-class WeatherLineChart extends Component {
-    constructor(props) {
-        super(props);
-        this.canvasRef = createRef()
-    }
+const WeatherLineChart = ({minTemp, currentTemp, maxTemp}) => {
+    const canvasRef = useRef(null)
+    const [lineChart, setChart] = useState(null)
 
-    componentDidMount() {
-        this._renderChart()
-    }
+    useEffect(() => {
+        _renderChart()
 
-    componentDidUpdate() {
-        this._updateChart()
-    }
+        return (() => _destroyChart())
+    }, [])
 
-    _renderChart() {
+    useEffect(() => {
+        if (!lineChart) {
+            return
+        }
+
+        _updateChart()
+    }, [minTemp, currentTemp, maxTemp])
+
+    const _destroyChart = () => {
+        if (chart) chart.destroy();
+      };
+
+    const _renderChart= () => {
         Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Filler) // Must register before create new Chart
-        this.lineChart = new Chart(this.canvasRef.current, this._buildChartConfig())
+        const lineChart = new Chart(canvasRef.current, _buildChartConfig())
+        setChart(lineChart)
     }
 
-    _updateChart() {
-        this.lineChart.data.datasets[0].data = this._buildChartData()
-        this.lineChart.update()
+    const _updateChart = () => {
+        lineChart.data.datasets[0].data = _buildChartData()
+        lineChart.update()
     }
 
-    _buildChartData() {
-        return Object.values(this.props)
-    }
+    const _buildChartData = () => [minTemp, currentTemp, maxTemp]
 
-    _buildChartConfig() {
+    const _buildChartConfig = () => {
         return {
             type: 'line',
             data: {
@@ -39,7 +46,7 @@ class WeatherLineChart extends Component {
                 datasets: [{
                     label: 'Temperature',
                     fill: 'start',
-                    data: this._buildChartData(),
+                    data: _buildChartData(),
                     borderColor: '#1e82dd',
                     backgroundColor: '#c2e7f0',
                     pointRadius: 5,
@@ -69,11 +76,7 @@ class WeatherLineChart extends Component {
         }
     }
 
-    render() {
-        return (
-            <canvas id='chart' ref={this.canvasRef}></canvas>
-        )
-    }
+    return <canvas id='chart' ref={canvasRef}></canvas>
 }
 
 export default WeatherLineChart
