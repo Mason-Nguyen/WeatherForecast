@@ -1,5 +1,5 @@
-import {Component} from 'react'
-import {get} from 'axios'
+import React, { useState, useEffect } from 'react'
+import { get } from 'axios'
 import "../../scss/Weather.scss"
 
 import CurrentWeather from './CurrentWeather'
@@ -10,50 +10,44 @@ import { convertToCelsius } from '../helpers/TemperatureHelper'
 import { getCityName } from '../helpers/StringHelper'
 import { formatDate } from '../helpers/DateHelper'
 
-class Weather extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            isLoading: true
-        }
-        this._onGetLocationSuccess = this._onGetLocationSuccess.bind(this)
-    }
+const Weather = () => {
+    const [isLoading, setIsLoadng] = useState(true)
+    const [currentData, setCurrentData] = useState(null)
+    const [dailyData, setDailyData] = useState(null)
 
-    componentDidMount() {
+    useEffect(() => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this._onGetLocationSuccess, this._onGetLocationError);
+            navigator.geolocation.getCurrentPosition(_onGetLocationSuccess, _onGetLocationError);
         }
         else {
             console.log("Geolocation is not supported by your browser");
         }
-    }
+    }, [])
 
-    async _onGetLocationSuccess(position) {
+    const _onGetLocationSuccess = async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
         console.log(`${latitude} - ${longitude}`);
 
-        const response = await get(`https://localhost:44309/WeatherForecast/GetWeatherData`+
-                                            `?Latitude=${latitude}` + 
-                                            `&Longitude=${longitude}`)
+        const response = await get(`https://localhost:44309/WeatherForecast/GetWeatherData` +
+            `?Latitude=${latitude}` +
+            `&Longitude=${longitude}`)
 
         const weatherData = response.data
-        const currentData = this._getCurrentData(weatherData)
-        const dailyData = this._getDailyData(weatherData)
+        const currentData = _getCurrentData(weatherData)
+        const dailyData = _getDailyData(weatherData)
 
-        this.setState({
-            isLoading: false,
-            currentData: currentData,
-            dailyData: dailyData
-        })
+        setIsLoadng(false)
+        setCurrentData(currentData)
+        setDailyData(dailyData)
     }
 
-    _onGetLocationError() {
+    const _onGetLocationError = () => {
         console.log("Unable to retrieve your location");
     }
 
-    _getDailyData(weatherData) {
+    const _getDailyData = (weatherData) => {
         const dateOptions = {
             weekday: 'short',
             day: 'numeric'
@@ -71,7 +65,7 @@ class Weather extends Component {
         }).slice(0, 5)
     }
 
-    _getCurrentData(weatherData) {
+    const _getCurrentData = (weatherData) => {
         const dateOptions = {
             hour: '2-digit',
             minute: '2-digit',
@@ -92,29 +86,24 @@ class Weather extends Component {
         }
     }
 
-    _renderCurrentWeather(currentData) {
+    const _renderCurrentWeather = (currentData) => {
         return currentData && <CurrentWeather currentData={currentData} />
     }
 
-    _renderWeatherForecast(dailyData) {
+    const _renderWeatherForecast = (dailyData) => {
         return dailyData && <WeatherForecast dailyData={dailyData} />
     }
 
-    render() {
-        const { currentData, dailyData, isLoading } = this.state;
-        return (
-            <BlockUi tag='div' blocking={isLoading} KeepInView={true} message="Collecting data, please wait...">
+    return <BlockUi tag='div' blocking={isLoading} KeepInView={true} message="Collecting data, please wait...">
                 <div className='row'>
-                    {
-                        this._renderCurrentWeather(currentData)
-                    }
-                    {
-                        this._renderWeatherForecast(dailyData)
-                    }
+                {
+                    _renderCurrentWeather(currentData)
+                }
+                {
+                    _renderWeatherForecast(dailyData)
+                }
                 </div>
             </BlockUi>
-        )
-    }
 }
 
 export default Weather

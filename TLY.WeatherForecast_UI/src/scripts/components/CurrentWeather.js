@@ -1,3 +1,4 @@
+import React from "react"
 import config from '../../config/config.json'
 import '../../scss/CurrentWeather.scss'
 

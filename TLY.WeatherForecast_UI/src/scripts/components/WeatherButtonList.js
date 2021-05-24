@@ -1,3 +1,4 @@
+import React from 'react'
 import WeatherButton from './WeatherButton'
 import '../../scss/WeatherButtonList.scss'
 

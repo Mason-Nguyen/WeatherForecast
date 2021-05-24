@@ -1,20 +1,14 @@
-import {Component} from 'react'
-import {convertToCelsius} from '../helpers/TemperatureHelper'
+import React, {useState} from "react"
+import { convertToCelsius } from '../helpers/TemperatureHelper'
 
 import WeatherButtonList from './WeatherButtonList'
 import WeatherLineChart from './WeatherLineChart'
 
-class WeatherForecast extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            activedButtonId: 0
-        }
-        this._onSelectedDayChange = this._onSelectedDayChange.bind(this)
-    }
+const WeatherForecast = ({dailyData}) => {
+    const [activedButtonId, setActiveButtonId] = useState(0)
 
-    _getChartData(id) {
-        const dataByDate = this.props.dailyData[id];
+    const _getChartData = (index) => {
+        const dataByDate = dailyData[index];
         return {
             minTemp: convertToCelsius(dataByDate.MinTemp),
             currentTemp: convertToCelsius(dataByDate.CurrentTemp),
@@ -22,36 +16,29 @@ class WeatherForecast extends Component {
         }
     }
 
-    _getDataByDates() {
-        return this.props.dailyData.map(d => {
-            return {
-                Date: d.Date,
-                Icon: d.Icon,
-                Humidity: d.Humidity
-            }
-        })
-    }
+    const _getDataByDates = () => dailyData.map(d => {
+        return {
+            Date: d.Date,
+            Icon: d.Icon,
+            Humidity: d.Humidity
+        }
+    })
 
-    _onSelectedDayChange(activedButtonId) {
-        if (this.state.activedButtonId !== activedButtonId) {
-            this.setState({activedButtonId: activedButtonId})
+    const _onSelectedDayChange = (currentButtonId) => {
+        if (activedButtonId !== currentButtonId) {
+            setActiveButtonId(currentButtonId)
         }
     }
 
-    render() {
-        const dataByDates = this._getDataByDates()
-        const {activedButtonId} = this.state
-        const chartData = this._getChartData(activedButtonId)
+    const dataByDates = _getDataByDates()
+    const chartData = _getChartData(activedButtonId)
 
-        return(
-            <div className='col-lg-8'>
+    return <div className='col-lg-8'>
                 <WeatherLineChart {...chartData} />
                 <WeatherButtonList dataByDates={dataByDates}
                                     activedButtonId={activedButtonId}
-                                    onButtonClick={this._onSelectedDayChange}/>
+                                    onButtonClick={_onSelectedDayChange} />
             </div>
-        )
-    }
 }
 
 export default WeatherForecast

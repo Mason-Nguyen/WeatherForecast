@@ -1,4 +1,4 @@
-import React, {Component, useRef, useState, useEffect, useMemo} from "react"
+import React, {useRef, useState, useEffect} from "react"
 import { Chart, Filler, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from "chart.js"
 
 import '../../scss/WeatherLineChart.scss'
