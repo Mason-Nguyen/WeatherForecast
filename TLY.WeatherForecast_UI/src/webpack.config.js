@@ -33,7 +33,7 @@ module.exports = {
                                 // Using to avoid window.React = React in index.js
                                 // automatic: auto imports the functions that JSX transpiles to. 
                                 // classic: does not automatic import anything.
-                                "runtime": "automatic"
+                                "runtime": "classic"
                             }],
                             ["@babel/preset-env", {
                                 //usage: no need to import anything manually. All polyfills are added automatically based on their code usage in a file
