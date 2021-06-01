@@ -1,4 +1,6 @@
 {
     "API_Url": "",
-    "Icon_Url": "http://openweathermap.org/img/wn/"
+    "Icon_Url": "http://openweathermap.org/img/wn/",
+
+    "MapBox_AccessToken": "pk.eyJ1IjoiaGF1bmd1eWVuOTQiLCJhIjoiY2twY3A4cTQzMThrbjJxbXNobmRkMGUzeCJ9.-0yCjbQ6gvnYaNdEqvWUMw"
 }
