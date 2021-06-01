@@ -1,5 +1,6 @@
 const path = require('path');
 const { webpack } = require('webpack');
+const alias = require("../src/alias")
 //const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
@@ -19,6 +20,18 @@ module.exports = {
         ignored: /node_modules/ // No watch file .js in node_modules
         // aggregateTimeout: 200 (ms) // - Add a delay before rebuilding once the first file changed. This allows webpack to aggregate any other changes made during this time period into one rebuild
     },
+
+    /*
+    To fix error: Can't resolve 'images/layers.png' in C:\Source\WeatherForecast\TLY.WeatherForecast_UI\src\scss
+    This error is caused when css-loader resolve Map.scss file with Leaflet.css is imported.
+    In webpack 4 and css-loader, it can not resolve path in css file (in Leaflet.css). 
+    So, need to define alias for those paths.
+    Aliases are define separately in alias.js file, then import in to webpack.config.js
+    For this issue: https://github.com/webpack-contrib/css-loader/issues/1136
+    For alias definition: https://webpack.js.org/configuration/resolve/#resolvealias
+    For sample config webpack for Leaflet.css : https://ganeshkokku.wordpress.com/2020/02/10/webpack-leaflet-configuration/
+    */
+    resolve: { alias: alias },
 
     module: {
         rules: [
@@ -48,8 +61,20 @@ module.exports = {
                     }
                 }
             },
+            // using load images whose path in Leaflet.css is resolved by alias.
             {
-                test: /\.s[ac]ss$/i,
+                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        //https://github.com/webpack-contrib/file-loader#publicpath
+                        publicPath: 'dist/images/',
+                        outputPath: 'images'
+                    }
+                }
+            },
+            {
+                test: /\.(sa|sc|c)ss$/,
                 use: [
                     // Creates `style` nodes from JS strings
                     "style-loader",
