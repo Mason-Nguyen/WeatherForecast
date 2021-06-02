@@ -68,8 +68,9 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         //https://github.com/webpack-contrib/file-loader#publicpath
-                        publicPath: 'dist/images/',
-                        outputPath: 'images'
+                        // publicPath: Specifies a custom public path for the target file(s).
+                        outputPath: 'images', // Specify a filesystem path where the target file(s) will be placed.
+                        name: '[name].[ext]' // loader file with original name and extension. If not exists, use hashcode as filename
                     }
                 }
             },
