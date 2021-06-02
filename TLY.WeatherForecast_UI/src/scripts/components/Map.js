@@ -3,11 +3,21 @@ import config from "../../config/config.json"
 import L from "leaflet"
 import "../../scss/Map.scss"
 
-const Map = ({latitude, longitude, options}) => {
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
+
+const Map = ({ latitude, longitude, onMapClick, options }) => {
     const mapRef = useRef(null)
+    const markerRef = useRef(null)
 
     useEffect(() => {
-        let map = L.map(mapRef.current).setView([latitude, longitude], mapOptions.zoom);
+        mapRef.current = L.map('map').setView([latitude, longitude], mapOptions.zoom);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: mapOptions.maxZoom,
@@ -15,10 +25,18 @@ const Map = ({latitude, longitude, options}) => {
             tileSize: mapOptions.tileSize,
             zoomOffset: mapOptions.zoomOffset,
             accessToken: config.MapBox_AccessToken
-        }).addTo(map);
+        }).addTo(mapRef.current);
 
-        return (() => mapRef.current = null)
+        mapRef.current.on('click', onMapClick);
     }, [])
+
+    useEffect(() => {
+        if (markerRef.current) {
+            markerRef.current.setLatLng([latitude, longitude]);
+        } else {
+            markerRef.current = L.marker([latitude, longitude]).addTo(mapRef.current);
+        }
+    }, [latitude, longitude]);
 
     const defaultMapOptions = {
         zoom: 5,
@@ -29,7 +47,7 @@ const Map = ({latitude, longitude, options}) => {
         className: 'flex-center'
     }
 
-    const mapOptions = {...options, ...defaultMapOptions }
+    const mapOptions = { ...options, ...defaultMapOptions }
 
     return <div id="map" ref={mapRef}></div>
 }
