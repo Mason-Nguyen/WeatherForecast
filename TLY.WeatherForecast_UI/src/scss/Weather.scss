@@ -1,1 +1,14 @@
-@import "./Main.scss"
+@import "./Main.scss";
+
+.section {
+    border-bottom: 2px solid #457cf1;
+    text-align: left;
+
+    .section-name {
+        font-weight: bold;
+        font-style: italic;
+        background-color: rgb(243, 214, 161);
+        padding: 2px;
+        border: 1px solid rgb(19, 12, 0);
+    }
+}

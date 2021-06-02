@@ -95,13 +95,14 @@ const Weather = () => {
     }
 
     return <BlockUi tag='div' blocking={isLoading} KeepInView={true} message="Collecting data, please wait...">
-                <div className='row'>
-                {
-                    _renderCurrentWeather(currentData)
-                }
-                {
-                    _renderWeatherForecast(dailyData)
-                }
+                <div className='flex-center'>
+                    {_renderCurrentWeather(currentData)}
+                </div>
+                <div className='section'>
+                    <span className='section-name'>Weather Forecast</span>
+                </div>
+                <div className='flex-center'>
+                    {_renderWeatherForecast(dailyData)}
                 </div>
             </BlockUi>
 }
