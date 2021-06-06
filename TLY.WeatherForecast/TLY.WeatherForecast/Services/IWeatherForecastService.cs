@@ -5,6 +5,8 @@
 
     public interface IWeatherForecastService
     {
-        Task<string> GetWeatherForecastData(GeoCoordinateCriteria criteria);
+        Task<string> GetWeatherForecastData(WeatherForecastCriteria criteria);
+
+        Task<string> GetCurrentWeather(GeoCoordinateCriteriaBase criteria);
     }
 }

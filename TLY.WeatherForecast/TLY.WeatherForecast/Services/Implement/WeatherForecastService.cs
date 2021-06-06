@@ -16,11 +16,17 @@
             _configuration = configuration;
         }
 
-        public async Task<string> GetWeatherForecastData(GeoCoordinateCriteria criteria)
+        public async Task<string> GetWeatherForecastData(WeatherForecastCriteria criteria)
             => await _httpClient.GetStringAsync($"/data/2.5/onecall?" +
                 $"lat={criteria.Latitude}" +
                 $"&lon={criteria.Longitude}" +
                 $"&exclude={criteria.Exclude}" +
+                $"&appid={GetAPIKey()}");
+
+        public async Task<string> GetCurrentWeather(GeoCoordinateCriteriaBase criteria)
+            => await _httpClient.GetStringAsync($"/data/2.5/weather?" +
+                $"lat={criteria.Latitude}" +
+                $"&lon={criteria.Longitude}" +
                 $"&appid={GetAPIKey()}");
 
         private string GetAPIKey() => _configuration["WeatherForecastAPI_Key"];
