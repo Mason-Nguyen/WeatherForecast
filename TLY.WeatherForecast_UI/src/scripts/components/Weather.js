@@ -7,13 +7,14 @@ import WeatherForecast from './WeatherForecast'
 import BlockUi from './core/blockUI/BlockUI'
 
 import { convertToCelsius } from '../helpers/TemperatureHelper'
-import { getCityName } from '../helpers/StringHelper'
 import { formatDate } from '../helpers/DateHelper'
 
 const Weather = () => {
-    const [isLoading, setIsLoadng] = useState(true)
-    const [currentData, setCurrentData] = useState(null)
-    const [dailyData, setDailyData] = useState(null)
+    const [currentData, setCurrentData] = useState({
+        isLoading: true,
+        weatherData: null,
+        geoCoordinate: null
+    })
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -30,39 +31,22 @@ const Weather = () => {
 
         console.log(`${latitude} - ${longitude}`);
 
-        const response = await get(`https://localhost:44309/WeatherForecast/GetWeatherData` +
+        const response = await get(`https://localhost:44309/WeatherForecast/GetCurrentWeatherData` +
             `?Latitude=${latitude}` +
             `&Longitude=${longitude}`)
-
-        const weatherData = response.data
-        const currentData = _getCurrentData(weatherData)
-        const dailyData = _getDailyData(weatherData)
-
-        setIsLoadng(false)
-        setCurrentData(currentData)
-        setDailyData(dailyData)
+        
+        setCurrentData({
+            isLoading: false,
+            weatherData: _getCurrentData(response.data),
+            geoCoordinate: {
+                lat: latitude,
+                lon: longitude
+            }
+        })
     }
 
     const _onGetLocationError = () => {
         console.log("Unable to retrieve your location");
-    }
-
-    const _getDailyData = (weatherData) => {
-        const dateOptions = {
-            weekday: 'short',
-            day: 'numeric'
-        };
-
-        return weatherData.daily.map(d => {
-            return {
-                Date: formatDate(d.dt, dateOptions),
-                MaxTemp: d.temp.max,
-                CurrentTemp: d.temp.day,
-                MinTemp: d.temp.min,
-                Humidity: d.humidity,
-                Icon: d.weather[0].icon
-            };
-        }).slice(0, 5)
     }
 
     const _getCurrentData = (weatherData) => {
@@ -76,33 +60,33 @@ const Weather = () => {
         };
 
         return {
-            CityName: getCityName(weatherData.timezone),
-            CurrentTime: formatDate(weatherData.current.dt, dateOptions),
-            Icon: weatherData.current.weather[0].icon,
-            Temp: convertToCelsius(weatherData.current.temp),
-            Description: weatherData.current.weather[0].description,
-            Humidity: weatherData.current.humidity,
-            WindSpeed: weatherData.current.wind_speed
+            cityName: weatherData.name,
+            currentTime: formatDate(weatherData.dt, dateOptions),
+            icon: weatherData.weather[0].icon,
+            temp: convertToCelsius(weatherData.main.temp),
+            description: weatherData.weather[0].description,
+            humidity: weatherData.main.humidity,
+            windSpeed: weatherData.wind.speed,
         }
     }
 
-    const _renderCurrentWeather = (currentData) => {
-        return currentData && <CurrentWeather currentData={currentData} />
+    const _renderCurrentWeather = (weatherData) => {
+        return weatherData && <CurrentWeather currentData={weatherData} />
     }
 
-    const _renderWeatherForecast = (dailyData) => {
-        return dailyData && <WeatherForecast dailyData={dailyData} />
+    const _renderWeatherForecast = (geoCoordinate) => {
+        return geoCoordinate && <WeatherForecast geoCoordinate={geoCoordinate} />
     }
 
-    return <BlockUi tag='div' blocking={isLoading} KeepInView={true} message="Collecting data, please wait...">
+    return <BlockUi tag='div' blocking={currentData.isLoading} KeepInView={true} message="Collecting data, please wait...">
                 <div className='flex-center'>
-                    {_renderCurrentWeather(currentData)}
+                    {_renderCurrentWeather(currentData.weatherData)}
                 </div>
                 <div className='section'>
                     <span className='section-name'>Weather Forecast</span>
                 </div>
-                <div className='flex-center'>
-                    {_renderWeatherForecast(dailyData)}
+                <div className='flex-center-col'>
+                    {_renderWeatherForecast(currentData.geoCoordinate)}
                 </div>
             </BlockUi>
 }

@@ -1,44 +1,79 @@
-import React, {useState} from "react"
-import { convertToCelsius } from '../helpers/TemperatureHelper'
+import React, { useEffect, useState } from "react"
+import { get } from 'axios'
+import { formatDate } from "../helpers/DateHelper"
 
-import WeatherButtonList from './WeatherButtonList'
-import WeatherLineChart from './WeatherLineChart'
+import Map from "../components/Map"
+import WeatherInfor from "../components/WeatherInfor"
 
-const WeatherForecast = ({dailyData}) => {
-    const [activedButtonId, setActiveButtonId] = useState(0)
-
-    const _getChartData = (index) => {
-        const dataByDate = dailyData[index];
-        return {
-            minTemp: convertToCelsius(dataByDate.MinTemp),
-            currentTemp: convertToCelsius(dataByDate.CurrentTemp),
-            maxTemp: convertToCelsius(dataByDate.MaxTemp),
-        }
-    }
-
-    const _getDataByDates = () => dailyData.map(d => {
-        return {
-            Date: d.Date,
-            Icon: d.Icon,
-            Humidity: d.Humidity
-        }
+const WeatherForecast = ({ geoCoordinate }) => {
+    const [weatherData, setWeatherData] = useState({
+        lat: null,
+        lon: null,
+        weatherData: null
     })
 
-    const _onSelectedDayChange = (currentButtonId) => {
-        if (activedButtonId !== currentButtonId) {
-            setActiveButtonId(currentButtonId)
+    useEffect(() => {
+        async function getDataAsync() {
+            const response = await get(`https://localhost:44309/WeatherForecast/GetWeatherData` +
+            `?Latitude=${geoCoordinate.lat}` +
+            `&Longitude=${geoCoordinate.lon}`)
+
+            setWeatherData({
+                lat: geoCoordinate.lat,
+                lon: geoCoordinate.lon,
+                weatherData: _getDailyData(response.data)
+            })
         }
+
+        getDataAsync()
+    }, []);
+
+    const _onCoordinateChange = async (e) => {
+        const lat = e.latlng.lat
+        const lon = e.latlng.lng
+
+        const response = await get(`https://localhost:44309/WeatherForecast/GetWeatherData` +
+            `?Latitude=${lat}` +
+            `&Longitude=${lon}`)
+
+            setWeatherData({
+            lat: lat,
+            lon: lon,
+            weatherData: _getDailyData(response.data)
+        })
     }
 
-    const dataByDates = _getDataByDates()
-    const chartData = _getChartData(activedButtonId)
+    const _getDailyData = (weatherData) => {
+        const dateOptions = {
+            weekday: 'short',
+            day: 'numeric'
+        };
 
-    return <div className='col-lg-8'>
-                <WeatherLineChart {...chartData} />
-                <WeatherButtonList dataByDates={dataByDates}
-                                    activedButtonId={activedButtonId}
-                                    onButtonClick={_onSelectedDayChange} />
-            </div>
+        return weatherData.daily.map(d => {
+            return {
+                Date: formatDate(d.dt, dateOptions),
+                MaxTemp: d.temp.max,
+                CurrentTemp: d.temp.day,
+                MinTemp: d.temp.min,
+                Humidity: d.humidity,
+                Icon: d.weather[0].icon
+            };
+        }).slice(0, 5)
+    }
+
+    return (
+        <>
+            <Map
+                latitude={weatherData.lat ?? geoCoordinate.lat}
+                longitude={weatherData.lon ?? geoCoordinate.lon}
+                onMapClick={_onCoordinateChange} />
+            
+            {
+                weatherData.weatherData 
+                && <WeatherInfor dailyData={weatherData.weatherData} />
+            }
+        </>
+    )
 }
 
 export default WeatherForecast

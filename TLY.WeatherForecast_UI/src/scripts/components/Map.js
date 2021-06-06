@@ -44,7 +44,7 @@ const Map = ({ latitude, longitude, onMapClick, options }) => {
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1,
-        className: 'flex-center'
+        className: ''
     }
 
     const mapOptions = { ...options, ...defaultMapOptions }
