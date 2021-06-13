@@ -78,7 +78,7 @@ const Weather = () => {
         return geoCoordinate && <WeatherForecast geoCoordinate={geoCoordinate} />
     }
 
-    return <BlockUi tag='div' blocking={currentData.isLoading} KeepInView={true} message="Collecting data, please wait...">
+    return <BlockUi tag='div' blocking={currentData.isLoading} keepInView={true} message="Collecting data, please wait...">
                 <div className='flex-center'>
                     {_renderCurrentWeather(currentData.weatherData)}
                 </div>

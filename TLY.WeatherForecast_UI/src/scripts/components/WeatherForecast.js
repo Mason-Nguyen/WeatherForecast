@@ -6,26 +6,25 @@ import Map from "../components/Map"
 import WeatherInfor from "../components/WeatherInfor"
 
 const WeatherForecast = ({ geoCoordinate }) => {
-    const [weatherData, setWeatherData] = useState({
-        lat: null,
-        lon: null,
-        weatherData: null
+    const [forecastData, setForecastData] = useState({
+        geoCoordinate: null,
+        dailyData: null
     })
 
     useEffect(() => {
-        async function getDataAsync() {
+        async function _getDataAsync() {
             const response = await get(`https://localhost:44309/WeatherForecast/GetWeatherData` +
-            `?Latitude=${geoCoordinate.lat}` +
-            `&Longitude=${geoCoordinate.lon}`)
+                `?Latitude=${geoCoordinate.lat}` +
+                `&Longitude=${geoCoordinate.lon}`)
 
-            setWeatherData({
+            setForecastData({
                 lat: geoCoordinate.lat,
                 lon: geoCoordinate.lon,
-                weatherData: _getDailyData(response.data)
+                dailyData: _getDailyData(response.data)
             })
         }
 
-        getDataAsync()
+        _getDataAsync()
     }, []);
 
     const _onCoordinateChange = async (e) => {
@@ -36,10 +35,12 @@ const WeatherForecast = ({ geoCoordinate }) => {
             `?Latitude=${lat}` +
             `&Longitude=${lon}`)
 
-            setWeatherData({
-            lat: lat,
-            lon: lon,
-            weatherData: _getDailyData(response.data)
+        setForecastData({
+            geoCoordinate: {
+                lat: lat,
+                lon: lon
+            },
+            dailyData: _getDailyData(response.data)
         })
     }
 
@@ -63,14 +64,10 @@ const WeatherForecast = ({ geoCoordinate }) => {
 
     return (
         <>
-            <Map
-                latitude={weatherData.lat ?? geoCoordinate.lat}
-                longitude={weatherData.lon ?? geoCoordinate.lon}
+            <Map geoCoordinate={forecastData.geoCoordinate ?? geoCoordinate}
                 onMapClick={_onCoordinateChange} />
-            
             {
-                weatherData.weatherData 
-                && <WeatherInfor dailyData={weatherData.weatherData} />
+                forecastData.dailyData && <WeatherInfor dailyData={forecastData.dailyData} />
             }
         </>
     )
