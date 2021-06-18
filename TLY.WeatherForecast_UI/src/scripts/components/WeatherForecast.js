@@ -7,7 +7,7 @@ import WeatherInfor from "../components/WeatherInfor"
 
 const WeatherForecast = ({ geoCoordinate }) => {
     const [forecastData, setForecastData] = useState({
-        geoCoordinate: null,
+        geoCoordinate: geoCoordinate,
         dailyData: null
     })
 
@@ -18,8 +18,10 @@ const WeatherForecast = ({ geoCoordinate }) => {
                 `&Longitude=${geoCoordinate.lon}`)
 
             setForecastData({
-                lat: geoCoordinate.lat,
-                lon: geoCoordinate.lon,
+                geoCoordinate: {
+                    lat: geoCoordinate.lat,
+                    lon: geoCoordinate.lon
+                },
                 dailyData: _getDailyData(response.data)
             })
         }
@@ -64,7 +66,7 @@ const WeatherForecast = ({ geoCoordinate }) => {
 
     return (
         <>
-            <Map geoCoordinate={forecastData.geoCoordinate ?? geoCoordinate}
+            <Map geoCoordinate={forecastData.geoCoordinate}
                 onMapClick={_onCoordinateChange} />
             {
                 forecastData.dailyData && <WeatherInfor dailyData={forecastData.dailyData} />

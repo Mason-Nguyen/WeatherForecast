@@ -33,7 +33,7 @@ const WeatherInfor = ({dailyData}) => {
     const dataByDates = _getDataByDates()
     const chartData = _getChartData(activedButtonId)
 
-    return <div className='col-lg-8'>
+    return <div className=''>
                 <WeatherLineChart {...chartData} />
                 <WeatherButtonList dataByDates={dataByDates}
                                     activedButtonId={activedButtonId}
