@@ -1,7 +1,11 @@
 @import "./Main.scss";
 
 .current-weather {
-    margin-top: 20px;
+    width: 250px;
+    margin-top: 15px;
+    border-radius: 20px;
+    background-image: linear-gradient(180deg, #4dd0e1, #b2ebf2, #e0f7fa);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .current-time {
@@ -9,12 +13,13 @@
 }
 
 #label-temperature {
-    font-size: 32px;
+    font-size: 48px;
     font-weight: bold;
+    color: #ffff9f;
 }
 
 #label-temperature::after {
-    content:"°C";
+    content:"°";
 }
 
 .flex-center {
@@ -29,35 +34,32 @@
 .weather-icon {
     width: 150%;
     height: 150%;
-    margin: 10px;
+    margin-top: 35px;
     padding: 5px;
-    background-color: #d8c9da;
-    border-bottom-left-radius: 50% 25%;
-    border-bottom-right-radius: 50% 25%;
-    border-top-left-radius: 50% 25%;
-    border-top-right-radius: 50% 25%;
     cursor: pointer;
-
-    &:hover {
-        background-color: #c9b5cc;
-        transition: 1s;;
-    }
 }
 
 .label-description {
-    font-size: 24px;
+    font-size: 18px;
+    color: #ffff9f;
     font-weight: bold;
-    padding-top: 0px;
-    font-style: italic;
 }
 
 .city-label {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.humidity {
+    font-style: italic;
 }
 
 .humidity::after {
     content: "%";
+}
+
+.wind-speed {
+    font-style: italic;
 }
 
 .wind-speed::after {
