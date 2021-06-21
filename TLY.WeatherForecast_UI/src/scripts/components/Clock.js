@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import "../../scss/Clock.scss"
+
 import { composeFunc } from "../helpers/functionHelper"
 
 const Clock = () => {
@@ -64,10 +66,10 @@ const Clock = () => {
 
     return (
         timeData && <div>
-            <span>{timeData.hours}:</span>
-            <span>{timeData.minutes}:</span>
-            <span>{timeData.seconds}:</span>
-            <span>{timeData.ampm}</span>
+            <span className="hour">{timeData.hours}:</span>
+            <span className="minute">{timeData.minutes}:</span>
+            <span className="second">{timeData.seconds}:</span>
+            <span className="ampm">{timeData.ampm}</span>
         </div>
     )
 }
